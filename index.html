@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍺 Cincin to 我的偶像情姐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #1c1710;
+    --paper: #faf6ee;
+    --warm: #f0e8d5;
+    --gold: #c49a3c;
+    --rust: #b5451b;
+    --stone: #8a7e6e;
+    --light: #e8e0cc;
+  }
+
+  body {
+    background: #1c1710;
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── FIREWORKS CANVAS ── */
+  #fireworks {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── ENVELOPE ── */
+  .envelope {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 60px auto;
+    background: var(--paper);
+    box-shadow: 0 8px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+
+  /* ── TOP BAND ── */
+  .top-band {
+    background: var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+  }
+  .top-band-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+  }
+  .top-band-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 64px 52px 48px;
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: 'XI';
+    position: absolute;
+    right: -20px; top: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 220px;
+    font-weight: 300;
+    color: rgba(196,154,60,0.07);
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--gold);
+  }
+  .farewell-word {
+    font-size: clamp(56px, 10vw, 84px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .farewell-word span { color: var(--rust); }
+  .farewell-sub {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 1px;
+    margin-bottom: 36px;
+  }
+  .stats-row {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--light);
+    border-bottom: 1px solid var(--light);
+    margin-top: 8px;
+  }
+  .stat {
+    flex: 1;
+    padding: 20px 0;
+    text-align: center;
+    border-right: 1px solid var(--light);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ── BODY ── */
+  .body { padding: 48px 52px; }
+
+  .letter-text {
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--ink);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+  .letter-text em {
+    font-style: italic;
+    color: var(--rust);
+  }
+  .letter-text strong {
+    font-weight: 600;
+  }
+
+  /* ── NAPLES CARD ── */
+  .naples-card {
+    background: var(--ink);
+    padding: 32px 36px;
+    margin: 36px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .naples-card::after {
+    content: '🌋';
+    position: absolute;
+    right: 24px; bottom: 16px;
+    font-size: 64px;
+    opacity: 0.15;
+  }
+  .naples-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .naples-title {
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 300;
+    color: #faf6ee;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .naples-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(250,246,238,0.65);
+    font-weight: 300;
+  }
+  .naples-body em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ── POMPEII QUOTE ── */
+  .pompeii-quote {
+    padding: 32px 0;
+    border-top: 1px solid var(--light);
+    border-bottom: 1px solid var(--light);
+    margin: 36px 0;
+    position: relative;
+  }
+  .pompeii-quote::before {
+    content: '"';
+    font-size: 96px;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--light);
+    position: absolute;
+    top: -16px; left: -8px;
+    line-height: 1;
+  }
+  .quote-text {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.6;
+    padding-left: 24px;
+    margin-bottom: 12px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--stone);
+    padding-left: 24px;
+    text-transform: uppercase;
+  }
+
+  /* ── FAO TRIBUTE ── */
+  .fao-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    background: var(--warm);
+    margin: 36px 0;
+    border-left: 3px solid var(--gold);
+  }
+  .fao-emblem {
+    font-size: 40px;
+    flex-shrink: 0;
+  }
+  .fao-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    font-weight: 300;
+  }
+  .fao-text strong { font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    padding: 36px 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .blessing {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 300;
+    color: #faf6ee;
+    margin-bottom: 6px;
+  }
+  .blessing-tr {
+    font-size: 12px;
+    color: #555;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .sender {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #444;
+    line-height: 2;
+  }
+  .sender span { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  .envelope { animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.3s; opacity: 0; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .farewell-word { animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.6s; opacity: 0; }
+  .stats-row { animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.9s; opacity: 0; }
+  .letter-text { animation: fadeUp 0.8s ease both; animation-delay: 1.1s; opacity: 0; }
+  .naples-card { animation: fadeUp 0.8s ease both; animation-delay: 1.3s; opacity: 0; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 48px 28px 36px; }
+    .body { padding: 36px 28px; }
+    .footer { padding: 28px; flex-direction: column; gap: 20px; }
+    .sender { text-align: left; }
+    .stats-row { flex-wrap: wrap; }
+    .stat { min-width: 50%; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="envelope">
+
+  <div class="top-band">
+    <span class="top-band-left">una lettera d'addio</span>
+    <span class="top-band-right">Roma → Il Mondo</span>
+  </div>
+
+  <div class="hero">
+    <div class="tag">con affetto · with love</div>
+    <div class="farewell-word">Cin<span>Cin</span></div>
+    <div class="farewell-sub">until we see each other again</div>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">11</span>
+        <span class="stat-label">months</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">FAO</span>
+        <span class="stat-label">Rome HQ</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">memories</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <p class="letter-text">
+      情姐，<br><br>
+      我本来想写一些很正式很成熟的farewell，但是想想觉得算了，反正是和小学生说话。
+    </p>
+
+    <p class="letter-text">
+      你在FAO待了11个月，喝了不知道多少杯咖啡，跑了不知道多少步，完成了非常棒棒的toastmaster，
+      让不知道多少朋友们爱上了你，还和大家一起度过了特别好的一段日子。
+      <br><br>
+      情姐是个看着像个小孩儿但是对自己认为重要的事情特别坚定的人。
+      情姐几乎每天早上都会去跑步，在我还没睁眼的时候就在WhatsApp群里分享好看早霞。
+      我是跑不动也起不来。所以情姐是我的偶像。情姐甚至不是在跑完半马之后成为的我的偶像。
+      每天看到早上六点的消息的时候情姐就已经是我的偶像了。
+      <br><br>
+    </p>
+
+    <div class="naples-card">
+  <div class="naples-eyebrow">今天！</div>
+  <div class="naples-title">要和小羊和Ollie去那不勒斯玩儿啦！</div>
+  <div class="naples-body">
+    逛Ercolano的时候，我在听《九龙公园游泳池》。<br><br>
+    <em>「二百年后这里什么也都不是<br>
+    宇宙里有什么不是暂时」<br><br></em>
+    但这都没有关系。你知道我要说什么。
+  </div>
+  <div style="margin-top:20px;">
+  <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https://soundcloud.com/user2679275/my-little-airport-1?in=tim-lau-11/sets/mla&color=%23c49a3c&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false">
+  </iframe>
+</div>
+</div>
+
+    <div class="pompeii-quote">
+      <div class="quote-text">
+        "Nunc est bibendum, nunc pede libero pulsanda tellus."<br>
+        <span style="font-size:15px;color:#8a7e6e;">现在就该喝酒，现在就该用自由的脚踏地起舞。</span>
+      </div>
+      <div class="quote-attr">— Horace · 写于公元前23年的罗马 · 加这句是为了显得有点文化</div>
+    </div>
+
+    <p class="letter-text">
+      世界好像在加速向前，唯一不变的是变化本身。希望你永远保持到处乱走的欲望，
+      对世界保持好奇，也始终给自己时间去享受世界。
+      不知道祝你什么，那还是祝你永远像小朋友一样！<br><br>
+      Anyways, enjoy your stay at Napoli. 拍点照片给我瞅瞅。
+      <br>
+      <br>
+      Roma non finisce mai.<br>
+      <em>不久后会再见的！</em>
+    </p>
+    <div>
+      
+        <div style="margin-top:20px;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"
+      width="100%" height="86"
+      src="https://music.163.com/outchain/player?type=2&id=536623692&auto=0&height=66">
+    </iframe>
+  </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div>
+      <div class="blessing">In bocca al lupo.</div>
+      <div class="blessing-tr">into the wolf's mouth. GO GET IT.</div>
+    </div>
+    <div class="sender">
+      敬礼🫡！<br>
+      <span>· 你的粉丝杰杰吴 ·</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── FIREWORKS ENGINE ──
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const COLORS = [
+  '#f5d76e', '#e8a23a', '#c4511f', '#7ecfb3',
+  '#f5f0e8', '#d4a843', '#e8c4a0', '#ffffff'
+];
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 6 + 1.5;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed;
+    this.alpha = 1;
+    this.decay = Math.random() * 0.015 + 0.008;
+    this.radius = Math.random() * 2.5 + 0.8;
+    this.gravity = 0.12;
+    this.tail = [];
+  }
+  update() {
+    this.tail.push({ x: this.x, y: this.y, alpha: this.alpha });
+    if (this.tail.length > 6) this.tail.shift();
+    this.vy += this.gravity;
+    this.vx *= 0.98;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.alpha -= this.decay;
+  }
+  draw() {
+    this.tail.forEach((t, i) => {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, this.radius * (i / this.tail.length) * 0.6, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = t.alpha * (i / this.tail.length) * 0.4;
+      ctx.fill();
+    });
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.alpha;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  isDead() { return this.alpha <= 0; }
+}
+
+class Rocket {
+  constructor() {
+    this.x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+    this.y = canvas.height;
+    this.tx = Math.random() * canvas.width * 0.6 + canvas.width * 0.2;
+    this.ty = Math.random() * canvas.height * 0.45 + canvas.height * 0.05;
+    const dx = this.tx - this.x;
+    const dy = this.ty - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const speed = Math.random() * 4 + 10;
+    this.vx = (dx / dist) * speed;
+    this.vy = (dy / dist) * speed;
+    this.trail = [];
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.exploded = false;
+  }
+  update() {
+    this.trail.push({ x: this.x, y: this.y });
+    if (this.trail.length > 12) this.trail.shift();
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy += 0.08;
+    if (this.vy >= 0 || Math.abs(this.y - this.ty) < 12) {
+      this.exploded = true;
+    }
+  }
+  draw() {
+    this.trail.forEach((t, i) => {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, 1.5 * (i / this.trail.length), 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = (i / this.trail.length) * 0.6;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+  }
+  explode() {
+    const count = Math.floor(Math.random() * 60 + 80);
+    const particles = [];
+    const baseColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle(this.x, this.y,
+        Math.random() > 0.3 ? baseColor : '#ffffff'));
+    }
+    return particles;
+  }
+}
+
+let rockets = [];
+let particles = [];
+let lastRocket = 0;
+
+function spawnRocket() {
+  rockets.push(new Rocket());
+  lastRocket = Date.now();
+}
+
+// Initial burst
+setTimeout(() => { for (let i = 0; i < 3; i++) setTimeout(spawnRocket, i * 400); }, 800);
+
+function loop() {
+  ctx.fillStyle = 'rgba(28, 23, 16, 0.18)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Auto-launch
+  const now = Date.now();
+  if (now - lastRocket > (Math.random() * 1800 + 1200)) spawnRocket();
+
+  rockets = rockets.filter(r => {
+    r.update();
+    r.draw();
+    if (r.exploded) {
+      particles.push(...r.explode());
+      return false;
+    }
+    return true;
+  });
+
+  particles = particles.filter(p => {
+    p.update();
+    p.draw();
+    return !p.isDead();
+  });
+
+  requestAnimationFrame(loop);
+}
+loop();
+
+// Click to launch
+canvas.addEventListener('click', e => {
+  const r = new Rocket();
+  r.tx = e.clientX;
+  r.ty = e.clientY;
+  const dx = r.tx - r.x;
+  const dy = r.ty - r.y;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  const speed = 14;
+  r.vx = (dx/dist) * speed;
+  r.vy = (dy/dist) * speed;
+  rockets.push(r);
+});
+</script>
+</body>
+</html>
